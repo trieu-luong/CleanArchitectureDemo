@@ -1,0 +1,24 @@
+# Initial Clearn Architecture Project
+
+dotnet new sln -n CleanArchitectureDemo
+cd CleanArchitectureDemo
+
+dotnet new classlib -n CleanArchitectureDemo.Domain
+dotnet new classlib -n CleanArchitectureDemo.Application
+dotnet new classlib -n CleanArchitectureDemo.Infrastructure
+dotnet new webapi -n CleanArchitectureDemo.WebApi
+
+dotnet sln add CleanArchitectureDemo.Domain/CleanArchitectureDemo.Domain.csproj
+dotnet sln add CleanArchitectureDemo.Application/CleanArchitectureDemo.Application.csproj
+dotnet sln add CleanArchitectureDemo.Infrastructure/CleanArchitectureDemo.Infrastructure.csproj
+dotnet sln add CleanArchitectureDemo.WebApi/CleanArchitectureDemo.WebApi.csproj
+
+# Reference Projects
+
+dotnet add CleanArchitectureDemo.Application/CleanArchitectureDemo.Application.csproj reference CleanArchitectureDemo.Domain/CleanArchitectureDemo.Domain.csproj
+dotnet add CleanArchitectureDemo.Infrastructure/CleanArchitectureDemo.Infrastructure.csproj reference CleanArchitectureDemo.Application/CleanArchitectureDemo.Application.csproj
+dotnet add CleanArchitectureDemo.Infrastructure/CleanArchitectureDemo.Infrastructure.csproj reference CleanArchitectureDemo.Domain/CleanArchitectureDemo.Domain.csproj
+dotnet add CleanArchitectureDemo.WebApi/CleanArchitectureDemo.WebApi.csproj reference CleanArchitectureDemo.Application/CleanArchitectureDemo.Application.csproj
+dotnet add CleanArchitectureDemo.WebApi/CleanArchitectureDemo.WebApi.csproj reference CleanArchitectureDemo.Infrastructure/CleanArchitectureDemo.Infrastructure.csproj
+dotnet add CleanArchitectureDemo.UI/CleanArchitectureDemo.UI.csproj reference CleanArchitectureDemo.Application/CleanArchitectureDemo.Application.csproj
+dotnet add CleanArchitectureDemo.UI/CleanArchitectureDemo.UI.csproj reference CleanArchitectureDemo.Infrastructure/CleanArchitectureDemo.Infrastructure.csproj
