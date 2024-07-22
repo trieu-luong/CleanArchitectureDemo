@@ -2,13 +2,13 @@
 using CleanArchitectureDemo.Application.Interfaces;
 using CleanArchitectureDemo.Application.Repositories;
 using CleanArchitectureDemo.Application.Services;
+using CleanArchitectureDemo.Application.Users.Commands;
+using CleanArchitectureDemo.Application.Users.Queries;
 using CleanArchitectureDemo.Infrastructure.Data;
 using CleanArchitectureDemo.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace CleanArchitectureDemo.Application.Extensions
 {
@@ -22,7 +22,7 @@ namespace CleanArchitectureDemo.Application.Extensions
         }
 
         public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
-        {            
+        {
             services.AddDbContext<ApplicationDbContext>((serviceProvider, options) =>
             {
                 switch (configuration["SqlProvider"])
@@ -31,12 +31,14 @@ namespace CleanArchitectureDemo.Application.Extensions
                         options.UseSqlServer(configuration["SqlConnectionString"])
                             .EnableSensitiveDataLogging();
                         break;
+
                     case "sqlite":
                         services.AddDbContext<ApplicationDbContext>((_, options) =>
                         {
                             options.UseSqlite(configuration["SqlConnectionString"]);
                         });
                         break;
+
                     case "inmemory":
                         services.AddDbContext<ApplicationDbContext>((_, options) =>
                         {
@@ -44,11 +46,12 @@ namespace CleanArchitectureDemo.Application.Extensions
                         });
                         break;
                 }
-
             });
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserQueries, UserQueries>();
+            services.AddTransient<ICreateUserCommand, CreateUserCommand>();
 
             return services;
         }

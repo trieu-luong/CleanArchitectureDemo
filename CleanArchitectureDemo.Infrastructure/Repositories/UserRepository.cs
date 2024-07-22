@@ -1,5 +1,6 @@
 ﻿using CleanArchitectureDemo.Application.DTOs;
 using CleanArchitectureDemo.Application.Repositories;
+using CleanArchitectureDemo.Domain.Entities;
 using CleanArchitectureDemo.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +24,12 @@ namespace CleanArchitectureDemo.Infrastructure.Repositories
                     Name = user.Name,
                     Email = user.Email
                 }).ToListAsync();
+        }
+
+        public async Task CreateUserAsync(User user)
+        {
+            _applicationDbContext.Users.Add(user);
+            await _applicationDbContext.SaveChangesAsync();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CleanArchitectureDemo.Application.Configuration;
 using CleanArchitectureDemo.Application.Interfaces;
+using CleanArchitectureDemo.Application.Users.Queries;
 using CleanArchitectureDemo.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -12,17 +13,20 @@ namespace CleanArchitectureDemo.UI.Controllers
         private readonly EmailSettings _emailSettings;
         private readonly ILogger<HomeController> _logger;
         private readonly IUserService _userService;
+        private readonly IUserQueries _userQueries;
 
-        public HomeController(ILogger<HomeController> logger, IOptions<EmailSettings> emailSettings, IUserService userService)
+        public HomeController(ILogger<HomeController> logger, IOptions<EmailSettings> emailSettings, IUserService userService, IUserQueries userQueries)
         {
             _logger = logger;
             _emailSettings = emailSettings.Value;
             _userService = userService;
+            _userQueries = userQueries;
         }
 
         public async Task<IActionResult> Index()
         {
-            var user = await _userService.GetListUser();
+            //var user = await _userService.GetListUser();
+            var user = await _userQueries.GetListUser();
 
             ViewBag.Setting = $"User Count: {user.Count()} - {_emailSettings.SenderName}";
             return View();
