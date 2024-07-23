@@ -2,6 +2,7 @@
 using CleanArchitectureDemo.Application.Interfaces;
 using CleanArchitectureDemo.Application.Repositories;
 using CleanArchitectureDemo.Application.Services;
+using CleanArchitectureDemo.Application.Teams.Queries;
 using CleanArchitectureDemo.Application.Users.Commands;
 using CleanArchitectureDemo.Application.Users.Queries;
 using CleanArchitectureDemo.Infrastructure.Data;
@@ -49,9 +50,19 @@ namespace CleanArchitectureDemo.Application.Extensions
             });
 
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ITeamRepository, TeamRepository>();
+
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserQueries, UserQueries>();
             services.AddTransient<ICreateUserCommand, CreateUserCommand>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddMediator(this IServiceCollection services)
+        {
+            //services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(GetTeamsHandle).Assembly));
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<GetTeamsHandle>());
 
             return services;
         }

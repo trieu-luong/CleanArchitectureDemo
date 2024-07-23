@@ -8,6 +8,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddApplication(builder.Configuration);
+builder.Services.AddMediator();
 
 // Add configurations
 builder.Services.AddConfigurations(builder.Configuration);
@@ -17,7 +18,6 @@ var app = builder.Build();
 
 // Initialize the database
 DbInitializer.EnsureDataMigrations(app.Services.CreateScope().ServiceProvider);
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
